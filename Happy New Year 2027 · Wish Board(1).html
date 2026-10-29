@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Happy New Year 2027 · Wish Board</title>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#2457ff;--blue-d:#0f2fa8;--navy:#0a1f6b;--sky:#e6f0ff;--sky2:#cfe0ff;--white:#fff;
+  --sun:#ffc93c;--coral:#ff6b57;--ink:#10205c;--muted:#51608f;
+  --r-s:12px;--r-m:20px;--r-l:28px;--r-pill:999px;
+  --sh1:0 4px 14px rgba(15,47,168,.12);--sh2:0 14px 34px rgba(15,47,168,.2);
+  --s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:40px;--s7:64px;
+  --font:'Prompt','Noto Sans Thai','Leelawadee UI',system-ui,sans-serif;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;font-family:var(--font);color:var(--ink);background:var(--sky);line-height:1.6;overflow-x:hidden}
+h1,h2,h3,p{margin:0}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--sun);outline-offset:3px}
+.wrap{width:min(1180px,100% - 32px);margin-inline:auto}
+
+/* Buttons */
+.btn{min-height:48px;min-width:44px;padding:0 var(--s5);border-radius:var(--r-pill);border:2px solid transparent;font-weight:700;font-size:1rem;transition:transform .15s,box-shadow .15s,background .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:translateY(1px) scale(.97)}
+.btn-primary{background:var(--sun);color:var(--navy);box-shadow:0 6px 0 #d99a00,var(--sh2)}
+.btn-primary:hover{background:#ffd75e}
+.btn-primary:active{box-shadow:0 2px 0 #d99a00}
+.btn-blue{background:var(--blue);color:#fff;box-shadow:0 6px 0 var(--blue-d)}
+.btn-blue:active{box-shadow:0 2px 0 var(--blue-d)}
+.btn-ghost{background:#fff;color:var(--blue-d);border-color:var(--sky2)}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-lg{min-height:58px;font-size:1.15rem;padding:0 var(--s6)}
+
+/* Hero */
+.hero{position:relative;background:radial-gradient(120% 90% at 70% 10%,#4a7bff 0%,var(--blue) 45%,var(--blue-d) 100%);color:#fff;overflow:hidden;padding:var(--s6) 0 var(--s7)}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:var(--s5);position:relative;z-index:1}
+.hero h1{font-size:clamp(2.4rem,7vw,5.2rem);font-weight:800;line-height:1.05;letter-spacing:-.02em}
+.hero h1 b{display:block;color:var(--sun);font-size:1.25em}
+.hero p{font-size:clamp(1rem,2.4vw,1.3rem);margin:var(--s4) 0 var(--s5);color:#dbe7ff;max-width:34ch}
+.hero-goat{width:min(420px,80%);justify-self:center;animation:bob 3.4s ease-in-out infinite;filter:drop-shadow(0 20px 20px rgba(5,20,90,.35))}
+.star{position:absolute;color:#fff;opacity:.8;animation:tw 2.8s ease-in-out infinite}
+.hero::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:48px;background:var(--sky);clip-path:ellipse(60% 100% at 50% 100%)}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-12px) rotate(1.5deg)}}
+@keyframes tw{0%,100%{opacity:.25;transform:scale(.7)}50%{opacity:1;transform:scale(1.15)}}
+
+/* Steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s4);margin-top:calc(var(--s6) * -1 + 8px);position:relative;z-index:2;list-style:none;padding:0}
+.steps li{background:#fff;border-radius:var(--r-m);padding:var(--s4) var(--s5);box-shadow:var(--sh1);display:flex;gap:var(--s3);align-items:center;font-weight:600}
+.steps i{flex:none;width:36px;height:36px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font-style:normal;font-weight:800}
+.sec-title{display:flex;justify-content:space-between;align-items:end;gap:var(--s4);flex-wrap:wrap;margin:var(--s7) 0 var(--s5)}
+.sec-title h2{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;color:var(--blue-d);line-height:1.2}
+.sec-title span{color:var(--muted);font-size:.95rem}
+
+/* Wish cards */
+.board{position:relative;background:linear-gradient(#fff 0,var(--sky) 100%);border-radius:var(--r-l);padding:var(--s5)}
+.grid{columns:3 280px;column-gap:var(--s4)}
+.card{break-inside:avoid;margin:0 0 var(--s4);background:#fff;border-radius:var(--r-m);padding:var(--s4);box-shadow:var(--sh1);position:relative;border:2px solid var(--sky);animation:fl 6s ease-in-out infinite;animation-delay:var(--d,0s)}
+.card:nth-child(3n+1){transform:rotate(-1deg)}.card:nth-child(3n+2){transform:rotate(.8deg);background:#f4f8ff}.card:nth-child(3n){transform:rotate(-.4deg);border-color:#ffe39a}
+.card .who{display:flex;align-items:center;gap:var(--s3);margin-bottom:var(--s3)}
+.card .who svg{width:48px;height:48px;flex:none;background:var(--sky);border-radius:50%}
+.card .who b{display:block;line-height:1.2}
+.card time{font-size:.78rem;color:var(--muted)}
+.card p{overflow-wrap:anywhere}
+.card .deco{position:absolute;top:-10px;right:12px;font-size:1.3rem}
+.rx{display:flex;flex-wrap:wrap;gap:var(--s2);margin-top:var(--s3);padding-top:var(--s3);border-top:2px dashed var(--sky)}
+.rb{min-height:44px;min-width:44px;padding:0 var(--s3);border-radius:var(--r-pill);border:2px solid var(--sky2);background:var(--sky);color:var(--ink);display:inline-flex;align-items:center;justify-content:center;gap:6px;font-weight:600;font-size:.85rem;transition:transform .15s,background .15s}
+.rb span{font-size:1.15rem;line-height:1}
+.rb:hover{background:#fff;border-color:var(--blue);transform:translateY(-2px)}
+.rb:active{transform:scale(.92)}
+.rb[aria-pressed=true]{background:var(--blue);border-color:var(--blue);color:#fff}
+.rb[aria-pressed=true] span{animation:pop .3s cubic-bezier(.2,1.6,.4,1)}
+@media (max-width:479px){.rb{padding:0 var(--s2)}}
+@keyframes fl{0%,100%{translate:0 0}50%{translate:0 -6px}}
+.mine{background:linear-gradient(135deg,#fff,#fff8dc);border:3px solid var(--sun);box-shadow:0 0 0 6px rgba(255,201,60,.3),0 0 40px rgba(255,201,60,.55);padding:var(--s5);max-width:520px;transform:none!important}
+.mine p{font-size:1.2rem}
+.badge{position:absolute;top:-14px;left:16px;background:var(--coral);color:#fff;font-size:.8rem;font-weight:700;padding:2px 14px;border-radius:var(--r-pill)}
+#mine-sec{display:none;margin-top:var(--s6)}
+#mine-sec.on{display:block}
+#mine-sec .row{display:flex;gap:var(--s5);align-items:center;flex-wrap:wrap}
+
+/* Modal + sheet */
+.ov{position:fixed;inset:0;background:rgba(10,31,107,.6);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:50;padding:var(--s4)}
+.ov.on{display:flex}
+.modal{background:#fff;border-radius:var(--r-l);width:min(560px,100%);max-height:calc(100dvh - 32px);overflow:auto;padding:var(--s5);box-shadow:var(--sh2);animation:pop .3s cubic-bezier(.2,1.3,.4,1)}
+.modal h2{font-size:1.6rem;color:var(--blue-d);font-weight:800}
+.modal .cap{color:var(--muted);margin-bottom:var(--s4)}
+.modal label,.lbl{display:block;font-weight:600;margin:var(--s4) 0 var(--s2)}
+.avs{display:grid;grid-template-columns:repeat(5,1fr);gap:var(--s2)}
+.av{min-height:64px;border-radius:var(--r-m);border:3px solid transparent;background:var(--sky);padding:4px;transition:transform .15s}
+.av:hover{transform:scale(1.06)}
+.av[aria-checked=true]{border-color:var(--blue);background:#fff;box-shadow:0 0 0 3px var(--sky2)}
+.av svg{width:100%;height:auto;display:block}
+.field{width:100%;border:2px solid var(--sky2);border-radius:var(--r-s);padding:var(--s3) var(--s4);font:inherit;color:var(--ink);background:#fff}
+.field:hover{border-color:var(--blue)}
+.field:focus{outline:3px solid var(--sky2);border-color:var(--blue)}
+textarea.field{min-height:120px;resize:vertical}
+.count{text-align:right;font-size:.85rem;color:var(--muted)}
+.count.warn{color:var(--coral);font-weight:700}
+.acts{display:flex;gap:var(--s3);justify-content:flex-end;margin-top:var(--s5)}
+@keyframes pop{from{transform:scale(.9) translateY(20px);opacity:0}}
+@keyframes up{from{transform:translateY(100%)}}
+
+/* Share */
+.share-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:var(--s3);margin-top:var(--s4)}
+.share-list button,.share-list a{min-height:56px;border-radius:var(--r-m);border:2px solid var(--sky2);background:var(--sky);color:var(--ink);font-weight:600;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:var(--s2);padding:var(--s3)}
+.share-list button:hover,.share-list a:hover{background:#fff;border-color:var(--blue)}
+.msg{background:var(--sky);border-radius:var(--r-s);padding:var(--s3) var(--s4);margin-top:var(--s3);font-size:.95rem}
+
+/* Submit animation layers */
+.fly{position:fixed;left:50%;top:55%;width:min(320px,82vw);z-index:70;transform:translate(-50%,-50%);pointer-events:none}
+.fly .card{animation:none;transform:none!important;box-shadow:0 0 50px rgba(255,201,60,.9),var(--sh2)}
+.spark{position:fixed;z-index:69;pointer-events:none;width:10px;height:10px;border-radius:2px}
+.toast{position:fixed;inset:0;display:none;place-items:center;z-index:80;background:rgba(36,87,255,.88);color:#fff;text-align:center;padding:var(--s5);pointer-events:none}
+.toast.on{display:grid;animation:pop .4s}
+.toast h2{font-size:clamp(1.6rem,6vw,2.6rem);font-weight:800}
+
+/* Design system */
+.ds{margin:var(--s7) 0;background:#fff;border-radius:var(--r-l);padding:var(--s5);box-shadow:var(--sh1)}
+.ds summary{display:flex;justify-content:space-between;align-items:center;gap:var(--s4);min-height:44px;cursor:pointer;list-style:none}
+.ds summary::-webkit-details-marker{display:none}
+.ds h2{color:var(--blue-d);font-size:1.4rem;font-weight:800}
+.ds .chev{width:44px;height:44px;border-radius:50%;background:var(--sky);color:var(--blue-d);display:grid;place-items:center;font-size:1.5rem;font-weight:800;transition:transform .25s}
+.ds[open] .chev{transform:rotate(180deg)}
+.ds summary:hover .chev{background:var(--sky2)}
+.ds-body{margin-top:var(--s4);padding-top:var(--s4);border-top:2px dashed var(--sky)}
+.ds .sw{display:flex;flex-wrap:wrap;gap:var(--s2);margin-bottom:var(--s4)}
+.ds .sw span{padding:var(--s2) var(--s3);border-radius:var(--r-s);font-size:.8rem;font-weight:600;border:1px solid var(--sky2)}
+.ds .demo{display:flex;flex-wrap:wrap;gap:var(--s3);align-items:center;margin-bottom:var(--s4)}
+footer{text-align:center;padding:var(--s5) 0 var(--s6);color:var(--muted);font-size:.9rem}
+
+@media (max-width:767px){
+  .hero{padding:var(--s5) 0 var(--s6)}
+  .hero .wrap{grid-template-columns:1fr;text-align:center}
+  .hero p{margin-inline:auto}
+  .hero-goat{width:min(220px,58%);order:-1}
+  .steps{grid-template-columns:1fr}
+  .grid{columns:2 150px;column-gap:var(--s3)}
+  .board{padding:var(--s3)}
+  .card{padding:var(--s3)}
+  .card .who svg{width:38px;height:38px}
+  .ov{align-items:flex-end;padding:0}
+  .modal{border-radius:var(--r-l) var(--r-l) 0 0;width:100%;max-height:92dvh;animation:up .3s ease-out;padding-bottom:calc(var(--s5) + env(safe-area-inset-bottom,0px))}
+}
+@media (max-width:479px){.grid{columns:1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <h1>Happy New Year <b>2027</b></h1>
+      <p>ส่งต่อความสุขและคำอวยพรดี ๆ ให้กันในปีใหม่นี้</p>
+      <button class="btn btn-primary btn-lg" data-open>ส่งต่อคำอวยพรปีใหม่</button>
+    </div>
+    <svg class="hero-goat" id="heroGoat" viewBox="0 0 200 200" aria-label="มาสคอตแพะปีใหม่ 2027" role="img"></svg>
+  </div>
+</header>
+
+<main class="wrap">
+  <ol class="steps" aria-label="วิธีร่วมกิจกรรม">
+    <li><i>1</i>เขียนคำอวยพร</li>
+    <li><i>2</i>เลือก Avatar</li>
+    <li><i>3</i>ส่งต่อคำอวยพรให้ทุกคน</li>
+  </ol>
+
+  <section id="mine-sec" aria-live="polite">
+    <div class="sec-title"><h2>คำอวยพรของคุณ</h2></div>
+    <div class="row">
+      <div id="mine-slot" style="flex:1 1 300px"></div>
+      <button class="btn btn-blue" data-share>แชร์คำอวยพร</button>
+    </div>
+  </section>
+
+  <div class="sec-title">
+    <h2>New Year Wish Board</h2>
+    <span id="total"></span>
+  </div>
+  <section class="board" aria-label="คำอวยพรจากทุกคน"><div class="grid" id="grid"></div></section>
+
+  <div style="text-align:center;margin-top:var(--s5);display:flex;gap:var(--s3);justify-content:center;flex-wrap:wrap">
+    <button class="btn btn-primary" data-open>ส่งต่อคำอวยพรปีใหม่</button>
+    <button class="btn btn-ghost" data-share>แชร์คำอวยพร</button>
+  </div>
+
+  <details class="ds">
+    <summary><h2>Design System</h2><span class="chev" aria-hidden="true">⌄</span></summary>
+    <div class="ds-body">
+    <div class="lbl">Color</div>
+    <div class="sw">
+      <span style="background:#2457ff;color:#fff">Blue #2457FF</span>
+      <span style="background:#0f2fa8;color:#fff">Deep #0F2FA8</span>
+      <span style="background:#e6f0ff">Sky #E6F0FF</span>
+      <span style="background:#fff">White</span>
+      <span style="background:#ffc93c">Sun #FFC93C</span>
+      <span style="background:#ff6b57;color:#fff">Coral #FF6B57</span>
+    </div>
+    <div class="lbl">Buttons · Input</div>
+    <div class="demo">
+      <button class="btn btn-primary">Primary</button>
+      <button class="btn btn-blue">Blue</button>
+      <button class="btn btn-ghost">Ghost</button>
+      <button class="btn btn-primary" disabled>Disabled</button>
+      <input class="field" style="max-width:220px" placeholder="Input">
+    </div>
+    <div class="lbl">Type · Radius · Spacing</div>
+    <p><b style="font-size:1.6rem">Prompt 800 / 1.6rem</b> · Body 400 / 1rem · Radius 12 / 20 / 28 / pill · Space 4 8 12 16 24 40 64</p>
+    <div class="lbl">Avatar set</div>
+    <div class="demo" id="dsAv"></div>
+    </div>
+  </details>
+</main>
+<footer>Happy New Year 2027 · ส่งต่อความสุขให้กัน<br>Created by ctw-mkt-webdesigner</footer>
+
+<!-- Wish modal -->
+<div class="ov" id="wishOv">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mt">
+    <h2 id="mt">ส่งต่อคำอวยพรปีใหม่</h2>
+    <p class="cap">เขียนคำอวยพรดี ๆ ของคุณ แล้วส่งต่อความสุขให้ทุกคน</p>
+    <div class="lbl" id="avl">เลือก Avatar</div>
+    <div class="avs" id="avs" role="radiogroup" aria-labelledby="avl"></div>
+    <label for="nm">ชื่อของคุณ (ไม่บังคับ)</label>
+    <input class="field" id="nm" maxlength="24" placeholder="เช่น น้องแพะ">
+    <label for="wish">คำอวยพร</label>
+    <textarea class="field" id="wish" maxlength="120" placeholder="เขียนคำอวยพรของคุณที่นี่…"></textarea>
+    <div class="count" id="cnt">0 / 120</div>
+    <div class="acts">
+      <button class="btn btn-ghost" id="cancel">ยกเลิก</button>
+      <button class="btn btn-primary" id="send" disabled>ส่งคำอวยพร</button>
+    </div>
+  </div>
+</div>
+
+<!-- Share sheet -->
+<div class="ov" id="shareOv">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="st">
+    <h2 id="st">แชร์คำอวยพร</h2>
+    <p class="cap">มาร่วมส่งต่อคำอวยพรปีใหม่ 2027 ด้วยกัน 🎉</p>
+    <div class="share-list">
+      <button id="copy">คัดลอกลิงก์</button>
+      <a id="sLine" target="_blank" rel="noopener">LINE</a>
+      <a id="sFb" target="_blank" rel="noopener">Facebook</a>
+      <a id="sX" target="_blank" rel="noopener">X</a>
+      <button id="sDev">แชร์ผ่านอุปกรณ์</button>
+    </div>
+    <div class="msg" id="shareMsg" hidden></div>
+    <div class="acts"><button class="btn btn-ghost" id="shareClose">ปิด</button></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><div><div style="font-size:4rem">🎉</div><h2>ส่งต่อความสุขเรียบร้อยแล้ว!</h2></div></div>
+
+<script>
+const NAVY='#0a1f6b',SUN='#ffc93c',CORAL='#ff6b57';
+function goat(v){
+  if(v==='chick')return `<svg viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="112" r="62" fill="${SUN}" stroke="${NAVY}" stroke-width="4"/><path d="M70 55q10-22 30-8q18-14 28 8" fill="${SUN}" stroke="${NAVY}" stroke-width="4"/><circle cx="80" cy="104" r="6" fill="${NAVY}"/><circle cx="120" cy="104" r="6" fill="${NAVY}"/><path d="M90 120l10 14l10-14z" fill="${CORAL}" stroke="${NAVY}" stroke-width="3" stroke-linejoin="round"/><circle cx="66" cy="124" r="9" fill="${CORAL}" opacity=".45"/><circle cx="134" cy="124" r="9" fill="${CORAL}" opacity=".45"/></svg>`;
+  const horns=`<path d="M74 72Q56 40 80 28Q76 50 90 66Z M126 72Q144 40 120 28Q124 50 110 66Z" fill="${SUN}" stroke="${NAVY}" stroke-width="4" stroke-linejoin="round"/>`;
+  const ears=`<ellipse cx="46" cy="96" rx="22" ry="12" transform="rotate(-18 46 96)" fill="#fff" stroke="${NAVY}" stroke-width="4"/><ellipse cx="154" cy="96" rx="22" ry="12" transform="rotate(18 154 96)" fill="#fff" stroke="${NAVY}" stroke-width="4"/><ellipse cx="48" cy="97" rx="11" ry="5" transform="rotate(-18 48 97)" fill="#ffc2c2"/><ellipse cx="152" cy="97" rx="11" ry="5" transform="rotate(18 152 97)" fill="#ffc2c2"/>`;
+  const face=`<path d="M100 172q-14 6-6 20q6-10 6-10q0 0 6 10q8-14-6-20z" fill="#fff" stroke="${NAVY}" stroke-width="3" stroke-linejoin="round"/><ellipse cx="100" cy="118" rx="54" ry="52" fill="#fff" stroke="${NAVY}" stroke-width="4"/><circle cx="82" cy="112" r="7" fill="${NAVY}"/><circle cx="118" cy="112" r="7" fill="${NAVY}"/><circle cx="84" cy="109" r="2.5" fill="#fff"/><circle cx="120" cy="109" r="2.5" fill="#fff"/><circle cx="66" cy="130" r="9" fill="${CORAL}" opacity=".4"/><circle cx="134" cy="130" r="9" fill="${CORAL}" opacity=".4"/><ellipse cx="100" cy="134" rx="13" ry="9" fill="#ffd6d6" stroke="${NAVY}" stroke-width="3"/><path d="M92 150q8 8 16 0" fill="none" stroke="${NAVY}" stroke-width="3.5" stroke-linecap="round"/>`;
+  let x='';
+  if(v==='gift')x=`<rect x="128" y="146" width="48" height="42" rx="6" fill="${CORAL}" stroke="${NAVY}" stroke-width="4"/><rect x="146" y="146" width="12" height="42" fill="${SUN}"/><path d="M152 146q-16-20-6-22q8 0 6 22q2-22 12-22q10 2-6 22" fill="${SUN}" stroke="${NAVY}" stroke-width="3"/>`;
+  if(v==='hat')x=`<path d="M100 18L76 70h48z" fill="${CORAL}" stroke="${NAVY}" stroke-width="4" stroke-linejoin="round"/><path d="M88 46l24 0M82 58l36 0" stroke="#fff" stroke-width="5"/><circle cx="100" cy="16" r="8" fill="${SUN}" stroke="${NAVY}" stroke-width="3"/>`;
+  if(v==='fire')x=`<g stroke-linecap="round" stroke-width="6"><path d="M164 22v-16M164 50v16M140 36h-16M188 36h16M147 19l-10-10M181 53l10 10M181 19l10-10M147 53l-10 10" stroke="${SUN}"/></g><circle cx="164" cy="36" r="7" fill="${CORAL}"/>`;
+  return `<svg viewBox="0 0 200 200" aria-hidden="true">${horns}${ears}${face}${x}</svg>`;
+}
+const AVS=[['goat','แพะมาสคอต'],['gift','แพะถือของขวัญ'],['hat','แพะหมวกปาร์ตี้'],['fire','แพะกับพลุ'],['chick','ลูกเจี๊ยบ']];
+const $=s=>document.querySelector(s);
+$('#heroGoat').outerHTML=goat('hat').replace('<svg ','<svg class="hero-goat" ');
+$('#dsAv').innerHTML=AVS.map(a=>`<span style="width:64px">${goat(a[0])}</span>`).join('');
+
+// hero sparkles
+const hero=document.querySelector('.hero');
+for(let i=0;i<14;i++){const s=document.createElement('span');s.className='star';s.textContent=['✦','✧','★'][i%3];
+  s.style.cssText=`left:${Math.random()*96}%;top:${Math.random()*85}%;font-size:${10+Math.random()*18}px;animation-delay:${Math.random()*3}s;color:${i%4?'#fff':SUN}`;hero.append(s);}
+
+// data
+const ago=m=>Date.now()-m*60000;
+let wishes=[
+ {n:'พี่ฟ้า',a:'goat',t:'ขอให้ปี 2027 เป็นปีที่ทุกคนมีสุขภาพแข็งแรง มีแต่เรื่องดี ๆ เข้ามา',ts:ago(12),d:'🌟'},
+ {n:'มะปราง',a:'gift',t:'สุขสันต์วันปีใหม่ค่ะ ขอให้โชคดีทั้งปี เงินทองไหลมาเทมา 💙',ts:ago(45),d:'🎁'},
+ {n:'ครูนก',a:'hat',t:'ขอให้ทุกความตั้งใจในปีหน้าสำเร็จ และมีรอยยิ้มทุกวัน',ts:ago(130),d:'🎉'},
+ {n:'ต้นกล้า',a:'chick',t:'ปีใหม่นี้ขอให้ได้เที่ยวเยอะ ๆ นะ!',ts:ago(260),d:'✨'},
+ {n:'แม่แพรว',a:'fire',t:'ขอให้ลูก ๆ และครอบครัวทุกคนมีความสุข อบอุ่นใจ ปลอดภัยตลอดปี',ts:ago(380),d:'🎆'},
+ {n:'เจ',a:'goat',t:'ขอบคุณสำหรับปีที่ผ่านมา ปีหน้าไปต่อด้วยกันนะ',ts:ago(600),d:'💫'},
+ {n:'น้องมิ้นท์',a:'gift',t:'Happy New Year! ขอให้สอบผ่านทุกวิชา 📚',ts:ago(900),d:'🌟'},
+ {n:'ลุงชัย',a:'hat',t:'สวัสดีปีใหม่ ขอให้ทุกท่านสุขภาพดี ใจเย็น ๆ และยิ้มได้ทุกวัน',ts:ago(1300),d:'🎊'}
+];
+wishes.forEach(w=>{const n=()=>Math.floor(Math.random()*38);w.r={h:n()+5,p:n(),s:n(),c:n()};});
+const fmt=ts=>new Date(ts).toLocaleString('th-TH',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+const RX=[['h','❤️','ถูกใจ'],['p','🎉','ฉลอง'],['s','⭐','ดีมาก'],['c','👏','ปรบมือ']];
+function rx(w){
+  w.r=w.r||{h:0,p:0,s:0,c:0};w.me=w.me||{};
+  const d=document.createElement('div');d.className='rx';d.setAttribute('role','group');d.setAttribute('aria-label','แสดงความรู้สึกต่อคำอวยพร');
+  RX.forEach(([k,e,l])=>{
+    const b=document.createElement('button');b.type='button';b.className='rb';b.setAttribute('aria-label',l);
+    const upd=()=>{b.setAttribute('aria-pressed',!!w.me[k]);b.innerHTML=`<span>${e}</span><span style="font-size:.85rem">${w.r[k]}</span>`;};
+    upd();
+    b.onclick=()=>{w.me[k]=!w.me[k];w.r[k]+=w.me[k]?1:-1;upd();
+      if(w.me[k]){const r=b.getBoundingClientRect();burst(r.left+r.width/2,r.top,8);}};
+    d.append(b);
+  });
+  return d;
+}
+function card(w,mine){
+  const c=document.createElement('article');c.className='card'+(mine?' mine':'');
+  c.style.setProperty('--d',(Math.random()*-6).toFixed(1)+'s');
+  c.innerHTML=`${mine?'<span class="badge">Your Wish</span>':`<span class="deco" aria-hidden="true">${w.d||'✨'}</span>`}<div class="who">${goat(w.a)}<div><b></b><time></time></div></div><p></p>`;
+  c.querySelector('b').textContent=w.n||'ผู้ใช้นิรนาม';c.querySelector('time').textContent=fmt(w.ts);c.querySelector('p').textContent=w.t;
+  if(!mine&&!w.own)c.append(rx(w));
+  return c;
+}
+function render(){const g=$('#grid');g.replaceChildren(...wishes.map(w=>card(w)));$('#total').textContent=`${wishes.length} คำอวยพรกำลังลอยอยู่`;}
+render();
+
+// modal helpers
+let lastFocus=null,sel='goat';
+function openOv(o){lastFocus=document.activeElement;o.classList.add('on');(o.querySelector('textarea,button.btn-ghost,button'))?.focus();}
+function closeOv(o){o.classList.remove('on');lastFocus&&lastFocus.focus&&lastFocus.focus();}
+document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openOv($('#wishOv')));
+document.querySelectorAll('[data-share]').forEach(b=>b.onclick=()=>openOv($('#shareOv')));
+$('#cancel').onclick=()=>closeOv($('#wishOv'));
+$('#shareClose').onclick=()=>closeOv($('#shareOv'));
+document.querySelectorAll('.ov').forEach(o=>{o.addEventListener('click',e=>{if(e.target===o)closeOv(o)});});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.ov.on').forEach(closeOv)});
+
+// avatar picker
+const avs=$('#avs');
+AVS.forEach(([k,l],i)=>{const b=document.createElement('button');b.type='button';b.className='av';b.setAttribute('role','radio');b.setAttribute('aria-label',l);b.setAttribute('aria-checked',i===0);b.innerHTML=goat(k);
+  b.onclick=()=>{sel=k;avs.querySelectorAll('.av').forEach(x=>x.setAttribute('aria-checked',x===b));};avs.append(b);});
+
+// textarea
+const ta=$('#wish'),cnt=$('#cnt'),send=$('#send');
+ta.addEventListener('input',()=>{const n=ta.value.length;cnt.textContent=n+' / 120';cnt.classList.toggle('warn',n>=105);send.disabled=!ta.value.trim();});
+
+// submit animation
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+function burst(x,y,n){for(let i=0;i<n;i++){const s=document.createElement('i');s.className='spark';s.style.left=x+'px';s.style.top=y+'px';
+  s.style.background=[SUN,CORAL,'#fff','#7aa2ff'][i%4];document.body.append(s);
+  const a=Math.random()*6.28,d=40+Math.random()*90;
+  s.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:`translate(${Math.cos(a)*d}px,${Math.sin(a)*d+40}px) rotate(240deg) scale(.2)`,opacity:0}],{duration:reduce?300:1200,easing:'ease-out'}).onfinish=()=>s.remove();}}
+send.onclick=async()=>{
+  const w={n:$('#nm').value.trim(),a:sel,t:ta.value.trim(),ts:Date.now(),d:'✨',own:true};
+  if(!w.t)return;
+  closeOv($('#wishOv'));
+  const fly=document.createElement('div');fly.className='fly';fly.append(card(w,true));document.body.append(fly);
+  const dur=reduce?500:2800;
+  const an=fly.animate([
+    {transform:'translate(-50%,-30%) scale(.6)',opacity:0},
+    {transform:'translate(-50%,-50%) scale(1)',opacity:1,offset:.22},
+    {transform:'translate(-50%,-90%) scale(.92) rotate(3deg)',opacity:1,offset:.6},
+    {transform:'translate(-50%,-320%) scale(.4) rotate(-6deg)',opacity:0}],{duration:dur,easing:'ease-in-out'});
+  const iv=setInterval(()=>{const r=fly.getBoundingClientRect();burst(r.left+r.width/2,r.bottom,4);},150);
+  await an.finished;clearInterval(iv);fly.remove();
+  const t=$('#toast');t.classList.add('on');burst(innerWidth/2,innerHeight/2,26);await wait(reduce?600:1500);t.classList.remove('on');
+  wishes.unshift(w);render();
+  $('#mine-slot').replaceChildren(card(w,true));$('#mine-sec').classList.add('on');
+  try{localStorage.setItem('wish2027',JSON.stringify(w));}catch(e){}
+  $('#mine-sec').scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'});
+  const m=$('#mine-slot .card');burst(m.getBoundingClientRect().left+60,m.getBoundingClientRect().top+20,16);
+  ta.value='';$('#nm').value='';cnt.textContent='0 / 120';send.disabled=true;
+};
+// restore my wish
+try{const s=JSON.parse(localStorage.getItem('wish2027')||'null');if(s&&s.t){s.own=true;wishes.unshift(s);render();$('#mine-slot').replaceChildren(card(s,true));$('#mine-sec').classList.add('on');}}catch(e){}
+
+// share
+const url=location.href,txt='มาร่วมส่งต่อคำอวยพรปีใหม่ 2027 ด้วยกัน 🎉';
+$('#sLine').href='https://social-plugins.line.me/lineit/share?url='+encodeURIComponent(url);
+$('#sFb').href='https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(url);
+$('#sX').href='https://twitter.com/intent/tweet?text='+encodeURIComponent(txt)+'&url='+encodeURIComponent(url);
+const sm=$('#shareMsg');const say=m=>{sm.hidden=false;sm.textContent=m;};
+$('#copy').onclick=async()=>{try{await navigator.clipboard.writeText(txt+' '+url);say('คัดลอกลิงก์แล้ว');}catch(e){say('คัดลอกไม่สำเร็จ ลองกดค้างที่แถบที่อยู่เพื่อคัดลอกลิงก์');}};
+$('#sDev').onclick=async()=>{if(navigator.share){try{await navigator.share({title:'Happy New Year 2027',text:txt,url});}catch(e){}}else say('อุปกรณ์นี้ยังไม่รองรับการแชร์ ใช้ปุ่มคัดลอกลิงก์แทนได้');};
+</script>
+</body>
+</html>
